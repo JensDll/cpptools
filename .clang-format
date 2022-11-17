@@ -1,0 +1,14 @@
+BasedOnStyle: Google
+Cpp11BracedListStyle: false
+DerivePointerAlignment: false
+PointerAlignment: Left
+IncludeCategories:
+  - Regex: '^".+\.(h|hpp)"'
+    Priority: 0
+    SortPriority: 0
+  - Regex: '^<.+\.(h|hpp)>'
+    Priority: 1
+    SortPriority: 1
+  - Regex: '^<[:alnum:]+>'
+    Priority: 2
+    SortPriority: 2
