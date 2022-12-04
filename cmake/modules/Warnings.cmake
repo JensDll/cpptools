@@ -1,5 +1,6 @@
-# See https://github.com/cpp-best-practices/cppbestpractices/blob/master/02-Use_the_Tools_Available.md#compilers
+include_guard()
 
+# See https://github.com/cpp-best-practices/cppbestpractices/blob/master/02-Use_the_Tools_Available.md#compilers
 function(configure_warnings project_name)
   set(msvc_warnings
       /W4
@@ -51,9 +52,9 @@ function(configure_warnings project_name)
 
   if(MSVC)
     set(project_warnings ${msvc_warnings})
-  elseif(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+  elseif(IS_CLANG_COMPILER)
     set(project_warnings ${clang_warnings})
-  elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  elseif(IS_GNU_COMPILER)
     set(project_warnings ${gcc_warnings})
   else()
     message(

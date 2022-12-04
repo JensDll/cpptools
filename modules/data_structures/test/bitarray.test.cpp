@@ -2,23 +2,16 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-unsigned int Factorial(unsigned int number) {
-  return number <= 1 ? number : Factorial(number - 1) * number;
+TEST_CASE("Single size constructor") {
+  data_structures::bitarray bitarray{ 10 };
+  REQUIRE(bitarray.size() == 10);
 }
 
-TEST_CASE("Factorials are computed", "[factorial]") {
-  REQUIRE(Factorial(1) == 1);
-  REQUIRE(Factorial(2) == 2);
-  REQUIRE(Factorial(3) == 6);
-  REQUIRE(Factorial(10) == 3628800);
-}
-
-TEST_CASE("Constructors") {
-  SECTION("Default") {
-    data_structures::bitarray bitarray{};
-
-    bitarray.rotate();
-
-    REQUIRE(bitarray.size() == 0);
-  }
+TEST_CASE("Move assignment") {
+  data_structures::bitarray bitarray_a{ 10 };
+  data_structures::bitarray bitarray_b{ 20 };
+  REQUIRE(bitarray_a.size() == 10);
+  REQUIRE(bitarray_b.size() == 20);
+  bitarray_a = std::move(bitarray_b);
+  REQUIRE(bitarray_a.size() == 20);
 }

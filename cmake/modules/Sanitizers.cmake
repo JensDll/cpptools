@@ -1,3 +1,5 @@
+include_guard()
+
 function(
   configure_sanitizers
   project_name
@@ -9,8 +11,7 @@ function(
 
   set(sanitizers "")
 
-  if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES
-                                             ".*Clang")
+  if(IS_GNU_COMPILER OR IS_CLANG_COMPILER)
     if(enable_sanitizer_address)
       list(APPEND sanitizers "address")
     endif()
@@ -34,7 +35,7 @@ function(
       endif()
     endif()
 
-    if(enable_sanitizer_memory AND CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+    if(enable_sanitizer_memory AND IS_CLANG_COMPILER)
       message(
         WARNING
           "Memory sanitizer requires all the code (including libc++) to be MSan-instrumented otherwise it reports false positives"

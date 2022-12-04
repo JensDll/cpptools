@@ -1,3 +1,5 @@
+include_guard()
+
 function(configure_linker project_name linker)
   if("${linker}" STREQUAL "")
     return()
