@@ -11,5 +11,3 @@ function(assure_out_of_source_build)
         "Please create a separate build directory and run cmake from there.")
   endif()
 endfunction()
-
-assure_out_of_source_build()

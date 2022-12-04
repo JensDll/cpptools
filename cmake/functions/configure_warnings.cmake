@@ -51,9 +51,9 @@ function(configure_warnings project_name)
 
   if(MSVC)
     set(project_warnings ${msvc_warnings})
-  elseif(is_clang_compiler)
+  elseif(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
     set(project_warnings ${clang_warnings})
-  elseif(is_gnu_compiler)
+  elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     set(project_warnings ${gcc_warnings})
   else()
     message(

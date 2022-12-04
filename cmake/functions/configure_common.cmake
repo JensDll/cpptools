@@ -27,12 +27,12 @@ else()
     allowed_build_types)
     message(FATAL_ERROR "Unsupported CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
   endif()
-
-  message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 endif()
 
-# See Professional CMake: A Practical Guide 12th Edition, ch. 17
-set(CMAKE_CXX_STANDARD 23)
+add_compile_definitions($<$<PLATFORM_ID:Windows>:IS_WINDOWS>)
+
+# See Professional CMake: A Practical Guide 13th Edition, ch. 17
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 

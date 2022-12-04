@@ -1,12 +1,8 @@
 {
   "cmake.configureOnOpen": false,
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll": true
-  },
   "files.insertFinalNewline": true,
-  "cmake.useCMakePresets": "always",
-  "debug.allowBreakpointsEverywhere": true,
+  "C_Cpp.default.includePath": ["${workspaceFolder}/**"],
+  "cmake.sourceDirectory": "${workspaceFolder}/modules/data_structures",
   "files.associations": {
     "*.xml": "html",
     "*.svg": "html",
