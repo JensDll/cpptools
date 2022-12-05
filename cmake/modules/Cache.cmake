@@ -17,18 +17,18 @@ function(enable_cache)
     )
   endif()
 
-  find_program(cache_path NAMES ${allowed_cache_options})
+  find_program(CACHE_PATH NAMES ${allowed_cache_options})
 
-  if(NOT cache_path)
+  if(NOT CACHE_PATH)
     message(FATAL_ERROR "cache requested but executable not found.")
   endif()
 
-  message(VERBOSE "Enabling `cache` (${cache_path})")
+  message(VERBOSE "Enabling `cache` (${CACHE_PATH})")
 
   set(CMAKE_CXX_COMPILER_LAUNCHER
-      ${cache_path}
+      ${CACHE_PATH}
       CACHE FILEPATH "CXX compiler cache used")
   set(CMAKE_C_COMPILER_LAUNCHER
-      ${cache_path}
+      ${CACHE_PATH}
       CACHE FILEPATH "C compiler cache used")
 endfunction()

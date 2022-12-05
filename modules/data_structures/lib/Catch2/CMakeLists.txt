@@ -1,8 +1,8 @@
 FetchContent_Declare(
   Catch2
   GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-  # https://github.com/catchorg/Catch2/releases/tag/v3.2.0
-  GIT_TAG 65cc7fd2ae39a7a543767f661b096d7d521ee4f0)
+  # https://github.com/catchorg/Catch2/releases/tag/v3.1.1
+  GIT_TAG 5df88da16e276f853cc0c45f4b570419be77dd43)
 
 FetchContent_MakeAvailable(Catch2)
 

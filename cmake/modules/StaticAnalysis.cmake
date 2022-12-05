@@ -1,13 +1,9 @@
 include_guard()
 
 macro(enable_clang_tidy)
-  find_program(clang_tidy_path clang-tidy)
+  find_program(CLANG_TIDY_PATH clang-tidy REQUIRED)
 
-  if(NOT clang_tidy_path)
-    message(FATAL_ERROR "clang-tidy requested but executable not found.")
-  endif()
-
-  message(VERBOSE "Enabling `clang-tidy` (${clang_tidy_path})")
+  message(VERBOSE "Enabling `clang-tidy` (${CLANG_TIDY_PATH})")
 
   if(NOT IS_CLANG_COMPILER)
     message(
@@ -16,7 +12,7 @@ macro(enable_clang_tidy)
     )
   endif()
 
-  set(cxx_clang_tidy ${clang_tidy_path} -extra-arg=-Wno-unknown-warning-option)
+  set(cxx_clang_tidy ${CLANG_TIDY_PATH} -extra-arg=-Wno-unknown-warning-option)
 
   if(CMAKE_COMPILE_WARNING_AS_ERROR)
     list(APPEND cxx_clang_tidy -warnings-as-errors=*)
@@ -45,16 +41,12 @@ macro(enable_clang_tidy)
 endmacro()
 
 macro(enable_cppcheck)
-  find_program(cppcheck_path cppcheck)
+  find_program(CPPCHECK_PATH cppcheck REQUIRED)
 
-  if(NOT cppcheck_path)
-    message(FATAL_ERROR "cppcheck requested but executable not found.")
-  endif()
-
-  message(VERBOSE "Enabling `cppcheck` (${cppcheck_path})")
+  message(VERBOSE "Enabling `cppcheck` (${CPPCHECK_PATH})")
 
   set(cxx_cppcheck
-      ${cppcheck_path}
+      ${CPPCHECK_PATH}
       --enable=style,performance,warning,portability
       --inline-suppr
       --suppress=internalAstError
@@ -80,8 +72,8 @@ macro(enable_cppcheck)
 endmacro()
 
 function(target_disable_clang_tidy target)
-  find_program(clang_tidy_path clang-tidy)
-  if(clang_tidy_path)
+  find_program(CLANG_TIDY_PATH clang-tidy)
+  if(CLANG_TIDY_PATH)
     message(VERBOSE "Disabling `clang-tidy` for target `${target}`")
     set_target_properties(${target} PROPERTIES C_CLANG_TIDY "" CXX_CLANG_TIDY
                                                                "")
@@ -89,8 +81,8 @@ function(target_disable_clang_tidy target)
 endfunction()
 
 function(target_disable_cppcheck target)
-  find_program(cppcheck_path cppcheck)
-  if(cppcheck_path)
+  find_program(CPPCHECK_PATH cppcheck)
+  if(CPPCHECK_PATH)
     message(VERBOSE "Disabling `cppcheck` for target `${target}`")
     set_target_properties(${target} PROPERTIES C_CPPCHECK "" CXX_CPPCHECK "")
   endif()
@@ -106,7 +98,6 @@ function(target_disable_static_analysis)
                          DISABLE_STATIC_ANALYSIS_FOR_TARGETS_CUSTOM_PROP)
 
   foreach(target IN LISTS ARGN to_disable)
-
     if(NOT TARGET ${target})
       message(
         WARNING
