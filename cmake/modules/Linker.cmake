@@ -12,6 +12,7 @@ function(configure_linker project_name linker)
   check_cxx_compiler_flag(${linker_flag} cxx_supports_linker_flag)
 
   if(cxx_supports_linker_flag)
+    message(VERBOSE "Using linker `${linker}`")
     target_compile_options(${project_name} INTERFACE ${linker_flag})
   endif()
 endfunction()

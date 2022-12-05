@@ -58,7 +58,9 @@ function(configure_warnings project_name)
     set(project_warnings ${gcc_warnings})
   else()
     message(
-      FATAL_ERROR "Failed to configure warnings for `${CMAKE_CXX_COMPILER_ID}`")
+      FATAL_ERROR
+        "Failed to configure warnings for `${CMAKE_CXX_COMPILER_ID}`, which is not supported by this project."
+    )
   endif()
 
   target_compile_options(${project_name} INTERFACE ${project_warnings})

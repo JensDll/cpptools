@@ -12,5 +12,5 @@ Checks: '*,
   -readability-avoid-const-params-in-decls,
   -cppcoreguidelines-pro-bounds-pointer-arithmetic
   '
-HeaderFilterRegex: 'modules/**/*.hpp'
+HeaderFilterRegex: ''
 FormatStyle: none

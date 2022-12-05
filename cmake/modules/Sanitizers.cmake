@@ -46,7 +46,7 @@ function(
          OR "leak" IN_LIST sanitizers)
         message(
           WARNING
-            "Memory sanitizer does not work with Address, Thread, and Leak sanitizers enabled"
+            "Memory sanitizer does not work with Address, Thread, or Leak sanitizers enabled"
         )
       else()
         list(APPEND sanitizers "memory")
@@ -71,6 +71,8 @@ function(
     ","
     list_of_sanitizers)
 
+  message(VERBOSE "Enabling sanitizers `${list_of_sanitizers}`")
+
   if(NOT list_of_sanitizers)
     return()
   endif()
@@ -90,7 +92,7 @@ function(
   if(vs_install_dir_idx EQUAL -1)
     message(
       FATAL_ERROR
-        "Using MSVC sanitizers requires setting the MSVC environment before building the project. Please manually open the MSVC command prompt and rebuild the project"
+        "Using MSVC sanitizers requires setting the MSVC environment before building the project. Please manually open the MSVC command prompt and rebuild the project."
     )
   endif()
 

@@ -8,19 +8,24 @@ set(PROJECT_COMMON_CMAKE_UTILS ${CMAKE_CURRENT_LIST_DIR}/../../cmake)
 
 list(PREPEND CMAKE_MODULE_PATH "${PROJECT_COMMON_CMAKE_UTILS}/modules")
 
-include(ProjectOptions)
-include(StaticAnalysis)
-include(FetchContent)
-include(CMakePrintHelpers)
+# See Professional CMake: A Practical Guide 13th Edition, ch. 17
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-project_options(
-  ENABLE_CLANG_TIDY
-  ENABLE_CPPCHECK
-  ENABLE_SANITIZER_ADDRESS
-  ENABLE_SANITIZER_ADDRESS
-  ENABLE_SANITIZER_UNDEFINED_BEHAVIOR
-  CXX_STANDARD
-  20)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_LINK_LIBRARIES_ONLY_TARGETS ON)
+
+include(ProjectOptionsDefaults)
+include(FetchContent)
+
+# See https://github.com/aminya/project_options
+# for the inspiration of this function
+project_options_defaults(
+  DISABLE_STATIC_ANALYSIS
+  Catch2
+  Catch2WithMain
+  cpptools_data_structures_test)
 
 enable_testing()
 add_subdirectory(lib/Catch2)
@@ -39,6 +44,3 @@ target_link_libraries(cpptools_data_structures_test
                       PRIVATE Catch2::Catch2WithMain cpptools_data_structures)
 
 catch_discover_tests(cpptools_data_structures_test)
-
-target_disable_static_analysis(Catch2 Catch2WithMain
-                               cpptools_data_structures_test)

@@ -3,16 +3,16 @@ include_guard()
 macro(enable_clang_tidy)
   find_program(clang_tidy_path clang-tidy)
 
-  message(STATUS "Enabling clang-tidy")
-
   if(NOT clang_tidy_path)
-    message(FATAL_ERROR "clang-tidy requested but executable not found")
+    message(FATAL_ERROR "clang-tidy requested but executable not found.")
   endif()
+
+  message(VERBOSE "Enabling `clang-tidy` (${clang_tidy_path})")
 
   if(NOT IS_CLANG_COMPILER)
     message(
       FATAL_ERROR
-        "clang-tidy cannot be enabled with non-clang compiler. Please select an appropriate toolchain"
+        "clang-tidy cannot be enabled with non-clang compiler. Please select an appropriate toolchain."
     )
   endif()
 
@@ -40,24 +40,18 @@ macro(enable_clang_tidy)
     endif()
   endif()
 
-  set(CMAKE_CXX_CLANG_TIDY
-      "${cxx_clang_tidy}"
-      PARENT_SCOPE)
-
-  set(CMAKE_C_CLANG_TIDY
-      "${c_clang_tidy}"
-      PARENT_SCOPE)
-
+  set(CMAKE_CXX_CLANG_TIDY "${cxx_clang_tidy}")
+  set(CMAKE_C_CLANG_TIDY "${c_clang_tidy}")
 endmacro()
 
 macro(enable_cppcheck)
   find_program(cppcheck_path cppcheck)
 
-  message(STATUS "Enabling cppcheck")
-
   if(NOT cppcheck_path)
-    message(FATAL_ERROR "cppcheck requested but executable not found")
+    message(FATAL_ERROR "cppcheck requested but executable not found.")
   endif()
+
+  message(VERBOSE "Enabling `cppcheck` (${cppcheck_path})")
 
   set(cxx_cppcheck
       ${cppcheck_path}
@@ -81,27 +75,23 @@ macro(enable_cppcheck)
     list(APPEND c_cppcheck --std=c${CMAKE_C_STANDARD})
   endif()
 
-  set(CMAKE_CXX_CPPCHECK
-      "${cxx_cppcheck}"
-      PARENT_SCOPE)
-
-  set(CMAKE_C_CPPCHECK
-      "${c_cppcheck}"
-      PARENT_SCOPE)
-
+  set(CMAKE_CXX_CPPCHECK "${cxx_cppcheck}")
+  set(CMAKE_C_CPPCHECK "${c_cppcheck}")
 endmacro()
 
 function(target_disable_clang_tidy target)
   find_program(clang_tidy_path clang-tidy)
   if(clang_tidy_path)
+    message(VERBOSE "Disabling `clang-tidy` for target `${target}`")
     set_target_properties(${target} PROPERTIES C_CLANG_TIDY "" CXX_CLANG_TIDY
                                                                "")
   endif()
 endfunction()
 
 function(target_disable_cppcheck target)
-  find_program(cppcheck_path clang-tidy)
+  find_program(cppcheck_path cppcheck)
   if(cppcheck_path)
+    message(VERBOSE "Disabling `cppcheck` for target `${target}`")
     set_target_properties(${target} PROPERTIES C_CPPCHECK "" CXX_CPPCHECK "")
   endif()
 endfunction()
@@ -111,14 +101,20 @@ function(target_disable_static_analysis)
     return()
   endif()
 
-  foreach(target IN LISTS ARGN)
+  get_directory_property(
+    to_disable DIRECTORY ${PROJECT_SOURCE_DIR}
+                         DISABLE_STATIC_ANALYSIS_FOR_TARGETS_CUSTOM_PROP)
+
+  foreach(target IN LISTS ARGN to_disable)
+
     if(NOT TARGET ${target})
       message(
         WARNING
-          "Trying to disable static analysis for target `${target}`, which doesn't exist"
+          "Disabling static analysis for target `${target}`, which does not exist (skipping)"
       )
       continue()
     endif()
+
     target_disable_clang_tidy(${target})
     target_disable_cppcheck(${target})
   endforeach()

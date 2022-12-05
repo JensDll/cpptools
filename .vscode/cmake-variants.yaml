@@ -1,0 +1,15 @@
+build:
+  default: debug
+  choices:
+    debug:
+      short: Debug (dev mode ON)
+      long: Emit debug information and enable dev mode
+      buildType: Debug
+      settings:
+        ENABLE_DEVELOPER_MODE: true
+    release:
+      short: Release (dev mode OFF)
+      long: Optimize generated code and disable dev mode
+      buildType: Release
+      settings:
+        ENABLE_DEVELOPER_MODE: false
