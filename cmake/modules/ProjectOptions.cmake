@@ -2,10 +2,12 @@ include(Utilities)
 include(Linker)
 include(Sanitizers)
 include(Warnings)
+include(StaticAnalysis)
 
 function(project_options)
   set(options
-      ENABLE_USER_LINKER
+      ENABLE_CLANG_TIDY
+      ENABLE_CPPCHECK
       ENABLE_SANITIZER_ADDRESS
       ENABLE_SANITIZER_LEAK
       ENABLE_SANITIZER_UNDEFINED_BEHAVIOR
@@ -66,6 +68,13 @@ function(project_options)
     ${ProjectOptions_ENABLE_SANITIZER_THREAD}
     ${ProjectOptions_ENABLE_SANITIZER_MEMORY})
 
+  if(ProjectOptions_ENABLE_CLANG_TIDY)
+    enable_clang_tidy()
+  endif()
+
+  if(ProjectOptions_ENABLE_CPPCHECK)
+    enable_cppcheck()
+  endif()
 endfunction()
 
 # See Professional CMake: A Practical Guide 13th Edition, ch. 14.3

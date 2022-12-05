@@ -14,6 +14,8 @@ include(FetchContent)
 include(CMakePrintHelpers)
 
 project_options(
+  ENABLE_CLANG_TIDY
+  ENABLE_CPPCHECK
   ENABLE_SANITIZER_ADDRESS
   ENABLE_SANITIZER_ADDRESS
   ENABLE_SANITIZER_UNDEFINED_BEHAVIOR
@@ -24,7 +26,7 @@ enable_testing()
 add_subdirectory(lib/Catch2)
 
 add_library(cpptools_data_structures SHARED src/bit.cpp src/bitarray.cpp)
-clang_tidy(cpptools_data_structures)
+
 target_include_directories(cpptools_data_structures
                            PUBLIC "${CMAKE_CURRENT_LIST_DIR}/include")
 
@@ -37,3 +39,6 @@ target_link_libraries(cpptools_data_structures_test
                       PRIVATE Catch2::Catch2WithMain cpptools_data_structures)
 
 catch_discover_tests(cpptools_data_structures_test)
+
+target_disable_static_analysis(Catch2 Catch2WithMain
+                               cpptools_data_structures_test)
