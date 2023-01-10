@@ -1,4 +1,4 @@
-# Cpptools
+# Building with CMake example
 
 ```bash
 cmake -S ./modules/algorithms/ -B out --log-context --log-level=verbose \
