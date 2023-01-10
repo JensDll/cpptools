@@ -1,17 +1,44 @@
 #include "bitarray.hpp"
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/generators/catch_generators_all.hpp>
 
-TEST_CASE("Single size constructor") {
-  data_structures::bitarray bitarray{ 10 };
-  REQUIRE(bitarray.size() == 10);
+#include <array>
+
+SCENARIO("bitarray can be constructed") {
+  GIVEN("random sizes") {
+    auto size{ static_cast<std::size_t>(GENERATE(take(20, random(42, 420)))) };
+
+    WHEN("constructed") {
+      data_structures::bitarray bits(size);
+
+      THEN("the size is correct") { REQUIRE(bits.size() == size); }
+    }
+  }
 }
 
-TEST_CASE("Move assignment") {
-  data_structures::bitarray bitarray_a{ 10 };
-  data_structures::bitarray bitarray_b{ 20 };
-  REQUIRE(bitarray_a.size() == 10);
-  REQUIRE(bitarray_b.size() == 20);
-  bitarray_a = std::move(bitarray_b);
-  REQUIRE(bitarray_a.size() == 20);
+SCENARIO("bitarray can be moved") {
+  GIVEN("given some bitarray") {
+    data_structures::bitarray bits(42);
+
+    THEN("test the initial state") { REQUIRE(bits.size() == 42); }
+
+    WHEN("move constructed") {
+      auto bits_moved{ std::move(bits) };
+
+      THEN("the size is correct") { REQUIRE(bits_moved.size() == 42); }
+    }
+
+    WHEN("move assigned") {
+      auto bits_moved = std::move(bits);
+
+      THEN("the size is correct") { REQUIRE(bits_moved.size() == 42); }
+    }
+
+    WHEN("move initialized") {
+      auto bits_moved{ std::move(bits) };
+
+      THEN("the size is correct") { REQUIRE(bits_moved.size() == 42); }
+    }
+  }
 }

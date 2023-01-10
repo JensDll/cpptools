@@ -1,16 +1,20 @@
 {
   "cmake.configureOnOpen": false,
   "files.insertFinalNewline": true,
-  "cmake.sourceDirectory": "${workspaceFolder}/modules/data_structures",
-  "clang-tidy.buildPath": "build",
-  "cmake.configureArgs": ["-DCMAKE_COMPILE_WARNING_AS_ERROR=ON"],
+  "cmake.sourceDirectory": "${workspaceFolder}/modules/algorithms",
+  "C_Cpp.codeAnalysis.clangTidy.enabled": true,
+  "C_Cpp.files.exclude": {
+    "**/test": true
+  },
+  "cmake.configureArgs": ["--log-context"],
   "files.associations": {
     "*.xml": "html",
     "*.svg": "html",
     "mime.types": "nginx",
+    ".clang-tidy": "yaml",
+    "*.slnf": "json",
     "default": "asm-intel-x86-generic",
     "mytests": "shellscript",
-    ".clang-tidy": "yaml",
     "array": "cpp",
     "atomic": "cpp",
     "bit": "cpp",
@@ -75,6 +79,12 @@
     "thread": "cpp",
     "variant": "cpp",
     "list": "cpp",
-    "span": "cpp"
+    "span": "cpp",
+    "gsl": "cpp",
+    "pointers": "cpp",
+    "complex": "cpp",
+    "span_ext": "cpp",
+    "string_span": "cpp",
+    "assert": "cpp"
   }
 }

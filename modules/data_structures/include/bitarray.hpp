@@ -1,8 +1,9 @@
-#ifndef JENSDLL_DATA_STRUCTURES_BITARRAY_HPP
-#define JENSDLL_DATA_STRUCTURES_BITARRAY_HPP
+#ifndef CPPTOOLS_DATA_STRUCTURES_BITARRAY_HPP
+#define CPPTOOLS_DATA_STRUCTURES_BITARRAY_HPP
 
 #include "bit.hpp"
 
+#include <cassert>
 #include <cstddef>
 
 namespace data_structures {
@@ -18,6 +19,7 @@ class bitarray {
  public:
   bitarray() = delete;
   explicit bitarray(std::size_t size);
+  explicit bitarray(std::initializer_list<std::uint8_t> values);
   bitarray(const bitarray& bitarray) = delete;
   bitarray(bitarray&& bitarray) noexcept;
   ~bitarray();
@@ -32,5 +34,8 @@ class bitarray {
 };
 
 }  // namespace data_structures
+
+std::ostream& operator<<(std::ostream& out,
+                         const data_structures::bitarray& bitarray);
 
 #endif

@@ -17,6 +17,12 @@ function(project_options_defaults)
       STATUS
         "Developer mode is OFF. For developement, please use `-DENABLE_DEVELOPER_MODE:BOOL=ON`"
     )
+
+    set(CMAKE_COMPILE_WARNING_AS_ERROR
+        ON
+        CACHE BOOL "Treat warnings as errors" FORCE)
+
+    message(STATUS "Treating all warnings as errors")
   endif()
 
   if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang.*" OR CMAKE_CXX_COMPILER_ID MATCHES

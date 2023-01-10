@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.24)
 
-project(DataStructures LANGUAGES CXX)
+project(Algorithms LANGUAGES CXX)
 
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
   set(${PROJECT_NAME}_BUILT_STANDALONE ON)
@@ -8,7 +8,7 @@ else()
   set(${PROJECT_NAME}_BUILT_STANDALONE OFF)
 endif()
 
-list(APPEND CMAKE_MESSAGE_CONTEXT ${PROJECT_NAME})
+list(APPEND CMAKE_MESSAGE_CONTEXT "Algorithms")
 
 message(
   STATUS
@@ -32,31 +32,37 @@ endif()
 include(ProjectOptionsDefaults)
 include(FetchContent)
 
-# See https://github.com/aminya/project_options
-# for the inspiration of this function
 project_options_defaults(
   PREFIX
   ${PROJECT_NAME}
   DISABLE_STATIC_ANALYSIS
   Catch2
   Catch2WithMain
-  cpptools_data_structures_test)
+  cpptools_algorithms_test)
 
 enable_testing()
+
 add_subdirectory(${CPPTOOLS_COMMON_CMAKE_UTILS}/lib/Catch2 lib/Catch2)
+add_subdirectory(${CPPTOOLS_COMMON_CMAKE_UTILS}/lib/MicrosoftGSL
+                 lib/MicrosoftGSL)
+add_subdirectory(../data_structures modules/data_structures)
 
-add_library(cpptools_data_structures SHARED src/bit.cpp src/bitarray.cpp)
+add_library(cpptools_algorithms SHARED include/merge_sort.hpp)
+set_target_properties(cpptools_algorithms PROPERTIES LINKER_LANGUAGE CXX)
 
-target_include_directories(cpptools_data_structures
+target_include_directories(cpptools_algorithms
                            PUBLIC "${CMAKE_CURRENT_LIST_DIR}/include")
 
 target_link_libraries(
-  cpptools_data_structures PUBLIC ${PROJECT_NAME}_project_options
-                                  ${PROJECT_NAME}_project_warnings)
+  cpptools_algorithms
+  PUBLIC ${PROJECT_NAME}_project_options
+         ${PROJECT_NAME}_project_warnings
+         GSL
+         cpptools_data_structures)
 
-add_executable(cpptools_data_structures_test test/bitarray.test.cpp)
+add_executable(cpptools_algorithms_test test/merge_sort.test.cpp)
 
-target_link_libraries(cpptools_data_structures_test
-                      PRIVATE Catch2::Catch2WithMain cpptools_data_structures)
+target_link_libraries(cpptools_algorithms_test PRIVATE Catch2::Catch2WithMain
+                                                       cpptools_algorithms)
 
-catch_discover_tests(cpptools_data_structures_test)
+catch_discover_tests(cpptools_algorithms_test)

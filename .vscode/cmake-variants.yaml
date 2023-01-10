@@ -2,13 +2,14 @@ build:
   default: debug
   choices:
     debug:
-      short: Debug (dev mode ON)
+      short: Debug
       long: Emit debug information and enable dev mode
       buildType: Debug
       settings:
         ENABLE_DEVELOPER_MODE: true
+        CMAKE_COMPILE_WARNING_AS_ERROR: false
     release:
-      short: Release (dev mode OFF)
+      short: Release
       long: Optimize generated code and disable dev mode
       buildType: Release
       settings:

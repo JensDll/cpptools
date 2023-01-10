@@ -7,10 +7,15 @@ Checks: '*,
   -llvm*,
   -zircon-*,
   -modernize-use-trailing-return-type,
+  -modernize-avoid-c-arrays,
   -cppcoreguidelines-avoid-magic-numbers,
+  -cppcoreguidelines-avoid-c-arrays,
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic,
   -readability-magic-numbers,
   -readability-avoid-const-params-in-decls,
-  -cppcoreguidelines-pro-bounds-pointer-arithmetic
+  -readability-identifier-length,
+  -misc-no-recursion,
+  -hicpp-avoid-c-arrays
   '
 HeaderFilterRegex: ''
 FormatStyle: none
