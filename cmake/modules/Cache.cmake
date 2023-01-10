@@ -7,10 +7,7 @@ function(enable_cache)
   set(allowed_cache_options "ccache" "sccache")
   set_property(CACHE CACHE_OPTION PROPERTY STRINGS ${allowed_cache_options})
 
-  if(NOT
-     CACHE_OPTION
-     IN_LIST
-     allowed_cache_options)
+  if(NOT CACHE_OPTION IN_LIST allowed_cache_options)
     message(
       FATAL_ERROR
         "Unsupported CACHE_OPTION `${CACHE_OPTION}`. Please select one of `${allowed_cache_options}`."

@@ -85,6 +85,7 @@
     "complex": "cpp",
     "span_ext": "cpp",
     "string_span": "cpp",
-    "assert": "cpp"
+    "assert": "cpp",
+    "cassert": "cpp"
   }
 }

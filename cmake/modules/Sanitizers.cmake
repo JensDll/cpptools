@@ -65,11 +65,7 @@ function(
     endif()
   endif()
 
-  list(
-    JOIN
-    sanitizers
-    ","
-    list_of_sanitizers)
+  list(JOIN sanitizers "," list_of_sanitizers)
 
   message(VERBOSE "Enabling sanitizers `${list_of_sanitizers}`")
 

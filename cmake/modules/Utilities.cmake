@@ -16,6 +16,11 @@ macro(set_in_parent_scope)
   endforeach()
 endmacro()
 
+macro(propagate_required_vars_to_parent)
+  set_in_parent_scope(CMAKE_CXX_CLANG_TIDY CMAKE_C_CLANG_TIDY
+                      CMAKE_CXX_CPPCHECK CMAKE_C_CPPCHECK)
+endmacro()
+
 function(assure_out_of_source_build)
   # Make sure to resolve possible symlinks
   file(REAL_PATH ${CMAKE_SOURCE_DIR} src_dir)
@@ -25,15 +30,7 @@ function(assure_out_of_source_build)
   if("${src_dir}" STREQUAL "${bin_dir}")
     message(
       FATAL_ERROR
-        "In-source builds are disabled. Please create a separate build directory and run cmake from there."
+        "In-source builds are disabled. Please create a separate build directory and run cmake from there"
     )
   endif()
 endfunction()
-
-macro(propagate_required_vars_to_parent)
-  set_in_parent_scope(
-    CMAKE_CXX_CLANG_TIDY
-    CMAKE_C_CLANG_TIDY
-    CMAKE_CXX_CPPCHECK
-    CMAKE_C_CPPCHECK)
-endmacro()

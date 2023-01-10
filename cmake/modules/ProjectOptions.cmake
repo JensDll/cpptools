@@ -1,3 +1,4 @@
+
 include(Utilities)
 include(Linker)
 include(Sanitizers)
@@ -5,6 +6,8 @@ include(Warnings)
 include(StaticAnalysis)
 include(Cache)
 
+# See https://github.com/aminya/project_options
+# for the inspiration of this function
 function(project_options)
   set(options
       ENABLE_CLANG_TIDY
@@ -16,7 +19,7 @@ function(project_options)
       ENABLE_SANITIZER_THREAD
       ENABLE_SANITIZER_MEMORY)
   set(one_value_args LINKER PREFIX)
-  set(multi_value_args DISABLE_STATIC_ANALYSIS)
+  set(multi_value_args DISABLE_STATIC_ANALYSIS MODULES LIBS)
 
   cmake_parse_arguments(
     PARSE_ARGV
@@ -32,7 +35,6 @@ function(project_options)
     DIRECTORY ${PROJECT_SOURCE_DIR}
     PROPERTY DISABLE_STATIC_ANALYSIS_FOR_TARGETS_CUSTOM_PROP
              ${ProjectOptions_DISABLE_STATIC_ANALYSIS})
-
   cmake_language(
     DEFER
     DIRECTORY
@@ -58,6 +60,18 @@ function(project_options)
         "Multiple calls to `project_options` in the same `project` detected, but the argument `PREFIX` that is prepended to `project_options` and `project_warnings` is not set."
     )
   endif()
+
+  list(POP_FRONT ProjectOptions_MODULES modules_path)
+  foreach(module IN LISTS ProjectOptions_MODULES)
+    message(VERBOSE "Adding module `${module}` as subdirectory")
+    add_subdirectory(${modules_path}/${module} modules/${module})
+  endforeach()
+
+  list(POP_FRONT ProjectOptions_LIBS libs_path)
+  foreach(lib IN LISTS ProjectOptions_LIBS)
+    message(VERBOSE "Adding lib `${lib}` as subdirectory")
+    add_subdirectory(${libs_path}/${lib} lib/${lib})
+  endforeach()
 
   add_library(${project_options_library} INTERFACE)
   add_library(${project_warnings_library} INTERFACE)
@@ -107,11 +121,7 @@ function(configure_build_type)
     set(CMAKE_BUILD_TYPE
         RelWithDebInfo
         CACHE STRING "Choose the type of build" FORCE)
-  elseif(
-    NOT
-    CMAKE_BUILD_TYPE
-    IN_LIST
-    allowed_build_types)
+  elseif(NOT CMAKE_BUILD_TYPE IN_LIST allowed_build_types)
     message(
       FATAL_ERROR
         "Unsupported CMAKE_BUILD_TYPE `${CMAKE_BUILD_TYPE}`. Please select one of `${allowed_build_types}`."

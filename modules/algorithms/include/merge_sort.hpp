@@ -1,6 +1,10 @@
 #ifndef CPPTOOLS_ALGORITHMS_MERGE_SORT_HPP
 #define CPPTOOLS_ALGORITHMS_MERGE_SORT_HPP
 
+#include "bitarray.hpp"
+
+// #include "cpptools/data_structures/all.hpp"
+
 #include <array>
 #include <cassert>
 #include <iostream>
@@ -69,8 +73,8 @@ inline void merge_sort_impl(const iter destination, const iter source,
 
   auto* const copy{ new value_type<iter>[static_cast<std::size_t>(length)] };
 
-  const difference_type<iter> left_length{ length / 2 };
-  const difference_type<iter> right_length{ length - left_length };
+  const auto left_length{ length / 2 };
+  const auto right_length{ length - left_length };
 
   merge_sort_impl(static_cast<iter>(copy), source, left_length, num_inversions);
   merge_sort_impl(static_cast<iter>(copy + left_length), source + left_length,

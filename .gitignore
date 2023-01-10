@@ -3,3 +3,4 @@ out
 Testing
 .idea
 cmake-build-*
+install/
